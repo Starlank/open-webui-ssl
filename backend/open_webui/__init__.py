@@ -1,8 +1,10 @@
 import base64
 import os
 import random
+import sys
 from pathlib import Path
 
+import asyncio
 import typer
 import uvicorn
 from typing import Optional
@@ -76,6 +78,9 @@ def serve(
 
     import open_webui.main  # we need set environment variables before importing main
     from open_webui.env import UVICORN_WORKERS  # Import the workers setting
+    
+    if sys.platform.startswith("win"): #https://github.com/encode/uvicorn/discussions/2105#discussioncomment-10359038
+        asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
 
     uvicorn.run(
         open_webui.main.app,
