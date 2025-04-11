@@ -34,6 +34,8 @@ def main(
 def serve(
     host: str = "0.0.0.0",
     port: int = 8080,
+    cert: str = "",
+    key: str = ""
 ):
     os.environ["FROM_INIT_PY"] = "true"
     if os.getenv("WEBUI_SECRET_KEY") is None:
@@ -79,6 +81,8 @@ def serve(
         open_webui.main.app,
         host=host,
         port=port,
+        ssl_keyfile=key,
+        ssl_certfile=cert,
         forwarded_allow_ips="*",
         workers=UVICORN_WORKERS,
     )
